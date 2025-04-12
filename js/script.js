@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('fecha_vencimiento').value = fechaVence;
 });
 
-document.getElementById('carnetForm').addEventListener('submit', function(e) {
+document.getElementById('carnetForm').addEventListener('submit', async function(e) {
   e.preventDefault();
 
   const nombre = document.getElementById('nombre').value;
@@ -18,7 +18,9 @@ document.getElementById('carnetForm').addEventListener('submit', function(e) {
   const emision = document.getElementById('fecha_emision').value;
   const vencimiento = document.getElementById('fecha_vencimiento').value;
 
+  const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
+
   doc.setFontSize(16);
   doc.text("Carnet de Seguro", 20, 20);
   doc.setFontSize(12);
