@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Carnets de Seguro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Generador de Carnets de Seguro</h1>
+        <form id="formulario-carnet">
+            <label for="nombre">Nombre del Asegurado:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="id">Número de Identificación:</label>
+            <input type="text" id="id" name="id" required>
+
+            <label for="poliza">Número de Póliza:</label>
+            <input type="text" id="poliza" name="poliza" required>
+
+            <label for="fecha-emision">Fecha de Emisión:</label>
+            <input type="date" id="fecha-emision" name="fecha-emision" required>
+
+            <label for="fecha-vencimiento">Fecha de Vencimiento:</label>
+            <input type="date" id="fecha-vencimiento" name="fecha-vencimiento" required>
+
+            <label for="cobertura">Cobertura:</label>
+            <input type="text" id="cobertura" name="cobertura" required>
+
+            <label for="aseguradora">Aseguradora:</label>
+            <input type="text" id="aseguradora" name="aseguradora" required>
+
+            <button type="submit">Generar Carnet</button>
+        </form>
+
+        <button id="descargar" style="display:none;">Descargar Carnet</button>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
