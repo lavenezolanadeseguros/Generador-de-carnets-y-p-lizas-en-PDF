@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Generador de Pólizas</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <h1>Formulario de Póliza</h1>
+  <form id="formulario">
+    <label>Nombre completo: <input type="text" name="nombre" required /></label>
+    <label>Cédula/RIF: <input type="text" name="cedula" required /></label>
+    <label>Teléfono: <input type="text" name="telefono" required /></label>
+    <label>N° de Póliza: <input type="text" name="poliza" required /></label>
+    <label>Producto/Plan: <input type="text" name="producto" required /></label>
+    <label>Canal de Venta: <input type="text" name="canal" required /></label>
+    <label>Total a Cobrar (USD): <input type="text" name="total" required /></label>
+    <label>Placa: <input type="text" name="placa" required /></label>
+    <label>Marca: <input type="text" name="marca" required /></label>
+    <label>Modelo: <input type="text" name="modelo" required /></label>
+    <label>Año: <input type="text" name="anio" required /></label>
+    <label>Color: <input type="text" name="color" required /></label>
+    <label>Serial Motor: <input type="text" name="motor" required /></label>
+    <label>Serial Carrocería: <input type="text" name="carroceria" required /></label>
+    <label>Versión: <input type="text" name="version" required /></label>
+    <label>Tipo de Vehículo: <input type="text" name="tipo" required /></label>
+    <label>Uso: <input type="text" name="uso" required /></label>
+    <label>N° de Pasajeros: <input type="text" name="pasajeros" required /></label>
+    <button type="submit">Generar PDF</button>
+  </form>
+  <script src="script.js"></script>
+</body>
+</html>
