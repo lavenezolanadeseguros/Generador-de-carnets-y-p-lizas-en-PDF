@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generador de Pólizas</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Generador de Pólizas</h1>
+    <form id="policy-form">
+      <label>Número de Póliza: <input type="text" id="numeroPoliza" required /></label>
+      <label>Nombre del Asegurado: <input type="text" id="nombre" required /></label>
+      <label>Cédula/RIF: <input type="text" id="cedula" required /></label>
+      <label>Marca del Vehículo: <input type="text" id="marca" required /></label>
+      <label>Modelo del Vehículo: <input type="text" id="modelo" required /></label>
+      <label>Placa: <input type="text" id="placa" required /></label>
+      <button type="submit">Generar PDF</button>
+    </form>
+    <div id="pdf-preview"></div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
