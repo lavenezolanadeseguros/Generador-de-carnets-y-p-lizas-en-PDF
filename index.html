@@ -2,96 +2,88 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Editor de Texto en Línea</title>
+  <title>Editor de Documentos Avanzado</title>
+  <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      background: #f2f2f2;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 100vh;
-      background-color: #f5f5f5;
     }
 
     .editor-container {
-      width: 80%;
-      max-width: 1000px;
-      background-color: white;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-
-    textarea {
-      width: 100%;
-      height: 400px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 10px;
-      font-size: 16px;
-      resize: none;
-    }
-
-    button {
+      max-width: 850px;
       margin-top: 20px;
+      background: white;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+    }
+
+    button.download-btn {
+      margin: 20px;
       padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      background-color: #007BFF;
+      background: #007bff;
       color: white;
       border: none;
       border-radius: 5px;
+      cursor: pointer;
     }
 
-    button:hover {
-      background-color: #0056b3;
+    button.download-btn:hover {
+      background: #0056b3;
     }
   </style>
 </head>
 <body>
   <div class="editor-container">
-    <textarea id="editor" placeholder="Escribe aquí tu documento..."></textarea>
-    <button id="downloadBtn">Descargar como PDF</button>
+    <textarea id="editor">Escribe aquí tu documento...</textarea>
   </div>
+  <button class="download-btn" onclick="downloadPDF()">Descargar como PDF</button>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    let timeout;
-    const editor = document.getElementById('editor');
-
-    function autoSave() {
-      localStorage.setItem('document', editor.value);
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const savedDocument = localStorage.getItem('document');
-      if (savedDocument) {
-        editor.value = savedDocument;
+    tinymce.init({
+      selector: '#editor',
+      height: 1120, // Tamaño carta (aprox. 11 pulgadas x 96px)
+      menubar: true,
+      plugins: [
+        'advlist autolink lists link image charmap preview anchor',
+        'searchreplace visualblocks code fullscreen',
+        'insertdatetime media table code help wordcount'
+      ],
+      toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright alignjustify | outdent indent | link image table | forecolor backcolor | fontsizeselect | lineheight | code',
+      content_style: "@page { size: letter; margin: 2cm; } body { font-family:Arial,sans-serif; font-size:14px; line-height:1.5; padding:1cm; }",
+      setup: function (editor) {
+        editor.on('Change', () => {
+          localStorage.setItem('document', editor.getContent());
+        });
+        editor.on('init', () => {
+          const saved = localStorage.getItem('document');
+          if (saved) {
+            editor.setContent(saved);
+          }
+        });
       }
     });
 
-    editor.addEventListener('input', () => {
-      clearTimeout(timeout);
-      timeout = setTimeout(autoSave, 5000);
-    });
-
-    document.getElementById('downloadBtn').addEventListener('click', async () => {
+    function downloadPDF() {
       const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      const lines = editor.value.split('\n');
-      let y = 10;
-
-      lines.forEach(line => {
-        doc.text(line, 10, y);
-        y += 10;
+      const doc = new jsPDF({ format: "letter", unit: "pt" });
+      const content = tinymce.get('editor').getContent();
+      doc.html(content, {
+        callback: function (doc) {
+          doc.save('documento.pdf');
+        },
+        x: 40,
+        y: 40
       });
-
-      doc.save('documento.pdf');
-    });
+    }
   </script>
+
+  <!-- Librería jsPDF para exportar como PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 </html>
