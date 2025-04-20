@@ -1,90 +1,90 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Editor Word Personalizado</title>
+  <meta charset="UTF-8">
+  <title>Editor tipo Word</title>
   <style>
     body {
+      background: #ddd;
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #eee;
     }
     .toolbar {
+      background: #333;
+      color: white;
+      padding: 10px;
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      padding: 10px;
-      background: #444;
-      color: white;
     }
     .toolbar button, .toolbar select, .toolbar input {
-      font-size: 14px;
-      padding: 5px;
       cursor: pointer;
+      padding: 5px 10px;
     }
     #editor {
-      width: 816px;
-      height: 1056px;
-      margin: 20px auto;
       background: white;
+      width: 21.59cm;
+      height: 27.94cm;
+      margin: 20px auto;
       padding: 2cm;
-      border: 1px solid #ccc;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
       overflow: auto;
-      position: relative;
     }
-    .draggable {
-      position: absolute;
-      resize: both;
-      overflow: auto;
-      border: 1px dashed gray;
+    table {
+      border-collapse: collapse;
     }
-    table td {
+    td {
+      border: 1px solid #000;
       padding: 5px;
-      border: 1px solid black;
     }
   </style>
 </head>
 <body>
 
 <div class="toolbar">
-  <button onclick="execCmd('bold')">Negrita</button>
-  <button onclick="execCmd('italic')">Cursiva</button>
-  <button onclick="execCmd('underline')">Subrayado</button>
-  <button onclick="insertImage()">Imagen (Archivo)</button>
-  <button onclick="insertTable()">Insertar Tabla</button>
-  <button onclick="undo()">Volver</button>
-  <input type="color" onchange="colorSelected=this.value" value="#ff0000" />
-  <button onclick="applyColorToTable()">Color Celda</button>
-  <button onclick="downloadPDF()">Descargar PDF</button>
-  <button onclick="downloadWord()">Descargar Word</button>
+  <button onclick="exec('bold')">Negrita</button>
+  <button onclick="exec('italic')">Cursiva</button>
+  <button onclick="exec('underline')">Subrayado</button>
+  <select onchange="setFontSize(this.value)">
+    <option value="">Tamaño</option>
+    <option value="10px">10</option>
+    <option value="12px">12</option>
+    <option value="14px">14</option>
+    <option value="16px">16</option>
+    <option value="18px">18</option>
+    <option value="24px">24</option>
+    <option value="32px">32</option>
+  </select>
+  <button onclick="insertImage()">Imagen</button>
+  <button onclick="insertTable()">Tabla</button>
+  <button onclick="undo()">Deshacer</button>
+  <button onclick="exportPDF()">PDF</button>
+  <button onclick="exportWord()">Word</button>
+  <input type="file" id="imgInput" accept="image/*" style="display:none">
 </div>
 
 <div id="editor" contenteditable="true"></div>
-<input type="file" id="imgInput" accept="image/*" style="display:none" />
 
-<!-- html2pdf CDN para PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
-  const editor = document.getElementById('editor');
-  const imgInput = document.getElementById('imgInput');
-  let colorSelected = "#ff0000";
+  const editor = document.getElementById("editor");
+  const imgInput = document.getElementById("imgInput");
 
-  // Autoguardado
-  window.onload = () => {
-    const saved = localStorage.getItem('editor_content');
-    if (saved) editor.innerHTML = saved;
-  };
-  editor.addEventListener('input', () => {
-    localStorage.setItem('editor_content', editor.innerHTML);
-  });
+  function exec(cmd) {
+    document.execCommand(cmd, false, null);
+  }
 
-  function execCmd(cmd, val = null) {
-    document.execCommand(cmd, false, val);
+  function setFontSize(size) {
+    document.execCommand("fontSize", false, "7"); // Usa el tamaño más grande disponible
+    document.querySelectorAll("font[size='7']").forEach(font => {
+      font.removeAttribute("size");
+      font.style.fontSize = size;
+    });
   }
 
   function undo() {
-    document.execCommand('undo', false, null);
+    document.execCommand("undo", false, null);
   }
 
   function insertImage() {
@@ -95,95 +95,51 @@
     const file = imgInput.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = function (e) {
-      const img = document.createElement('img');
+    reader.onload = (e) => {
+      const img = document.createElement("img");
       img.src = e.target.result;
-      img.style.maxWidth = '100%';
-      wrapDraggable(img);
+      img.style.maxWidth = "100%";
+      img.style.display = "block";
+      editor.appendChild(img);
     };
     reader.readAsDataURL(file);
   };
 
   function insertTable() {
-    const rows = prompt("Filas:");
-    const cols = prompt("Columnas:");
+    const rows = parseInt(prompt("Filas:", 2));
+    const cols = parseInt(prompt("Columnas:", 2));
     if (!rows || !cols) return;
+
     const table = document.createElement("table");
     for (let i = 0; i < rows; i++) {
-      const row = table.insertRow();
+      const tr = document.createElement("tr");
       for (let j = 0; j < cols; j++) {
-        const cell = row.insertCell();
-        cell.innerHTML = "Celda";
-        cell.onclick = () => {
-          cell.style.backgroundColor = colorSelected;
-        };
+        const td = document.createElement("td");
+        td.contentEditable = true;
+        td.textContent = "Celda";
+        tr.appendChild(td);
       }
+      table.appendChild(tr);
     }
-    wrapDraggable(table);
+    editor.appendChild(table);
   }
 
-  function wrapDraggable(el) {
-    const wrapper = document.createElement("div");
-    wrapper.classList.add("draggable");
-    wrapper.style.left = "100px";
-    wrapper.style.top = "100px";
-    wrapper.appendChild(el);
-    editor.appendChild(wrapper);
-    makeDraggable(wrapper);
+  function exportPDF() {
+    html2pdf().set({ margin: 0, filename: 'documento.pdf' }).from(editor).save();
   }
 
-  function makeDraggable(el) {
-    let isDragging = false, offsetX, offsetY;
-
-    el.onmousedown = (e) => {
-      if (e.target.tagName === 'TD') return;
-      isDragging = true;
-      offsetX = e.offsetX;
-      offsetY = e.offsetY;
-      el.style.zIndex = 1000;
-    };
-
-    document.onmousemove = (e) => {
-      if (isDragging) {
-        el.style.left = (e.pageX - offsetX) + 'px';
-        el.style.top = (e.pageY - offsetY) + 'px';
-      }
-    };
-
-    document.onmouseup = () => {
-      isDragging = false;
-    };
-  }
-
-  function applyColorToTable() {
-    const selection = window.getSelection();
-    if (!selection.rangeCount) return;
-    const td = selection.anchorNode.closest('td');
-    if (td) {
-      td.style.backgroundColor = colorSelected;
-    }
-  }
-
-  function downloadPDF() {
-    html2pdf().from(editor).save('documento.pdf');
-  }
-
-  function downloadWord() {
-    const header = `
-      <html xmlns:o='urn:schemas-microsoft-com:office:office' 
-            xmlns:w='urn:schemas-microsoft-com:office:word' 
-            xmlns='http://www.w3.org/TR/REC-html40'>
-      <head><meta charset='utf-8'></head><body>`;
+  function exportWord() {
+    const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' " +
+                   "xmlns:w='urn:schemas-microsoft-com:office:word' " +
+                   "xmlns='http://www.w3.org/TR/REC-html40'>" +
+                   "<head><meta charset='utf-8'></head><body>";
     const footer = "</body></html>";
     const sourceHTML = header + editor.innerHTML + footer;
-
     const source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
     const fileDownload = document.createElement("a");
-    document.body.appendChild(fileDownload);
     fileDownload.href = source;
     fileDownload.download = 'documento.doc';
     fileDownload.click();
-    document.body.removeChild(fileDownload);
   }
 </script>
 
