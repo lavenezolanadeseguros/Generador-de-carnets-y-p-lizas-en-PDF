@@ -17,21 +17,52 @@
 <div class="container">
   <div class="form-section">
     <h1>Formulario de Seguro</h1>
+    <h2>DATOS DEL TOMADOR Y ASEGURADO</h2>
     <label>Tomador:</label><input type="text" id="tomador" oninput="updateField('field-tomador', this.value)">
+    <label>Asegurado:</label><input type="text" id="asegurado" oninput="updateField('field-asegurado', this.value)">
     <label>Dirección:</label><input type="text" id="direccion" oninput="updateField('field-direccion', this.value)">
-    <label>C.I / RIF:</label><input type="text" id="ci" oninput="updateField('field-ci', this.value)">
+    <label>C.I / RIF:</label><input type="text" id="ci_rif" oninput="updateField('field-ci_rif', this.value)">
     <label>Teléfono:</label><input type="text" id="telefono" oninput="updateField('field-telefono', this.value)">
+
+    <h2>DATOS DE POLIZA</h2>
+    <label>Vigencia Desde:</label><input type="text" id="vigencia_desde" oninput="updateField('field-vigencia_desde', this.value)">
+    <label>Hasta:</label><input type="text" id="vigencia_hasta" oninput="updateField('field-vigencia_hasta', this.value)">
+
+    <h2>DATOS DEL VEHÍCULO</h2>
+    <label>Marca:</label><input type="text" id="marca" oninput="updateField('field-marca', this.value)">
+    <label>Modelo:</label><input type="text" id="modelo" oninput="updateField('field-modelo', this.value)">
+    <label>Número de Pasajeros:</label><input type="number" id="numero_pasajeros" oninput="updateField('field-numero_pasajeros', this.value)">
+    <label>Versión:</label><input type="text" id="version" oninput="updateField('field-version', this.value)">
+    <label>Año:</label><input type="number" id="ano" oninput="updateField('field-ano', this.value)">
+    <label>Tipo de Vehículo:</label><input type="text" id="tipo_vehiculo" oninput="updateField('field-tipo_vehiculo', this.value)">
     <label>Placa:</label><input type="text" id="placa" oninput="updateField('field-placa', this.value)">
+    <label>Serial del Motor:</label><input type="text" id="serial_motor" oninput="updateField('field-serial_motor', this.value)">
+    <label>Uso:</label><input type="text" id="uso" oninput="updateField('field-uso', this.value)">
+    <label>Color:</label><input type="text" id="color" oninput="updateField('field-color', this.value)">
+    <label>Serial Carrocería:</label><input type="text" id="serial_carroceria" oninput="updateField('field-serial_carroceria', this.value)">
   </div>
 
   <button id="downloadBtn" onclick="downloadPDF()">Descargar PDF del Seguro</button>
 
   <div id="documento" class="doc-section">
     <div id="field-tomador" class="field" style="top: 160px; left: 200px;"></div>
-    <div id="field-direccion" class="field" style="top: 180px; left: 200px;"></div>
-    <div id="field-ci" class="field" style="top: 200px; left: 200px;"></div>
-    <div id="field-telefono" class="field" style="top: 220px; left: 200px;"></div>
-    <div id="field-placa" class="field" style="top: 240px; left: 200px;"></div>
+    <div id="field-asegurado" class="field" style="top: 180px; left: 200px;"></div>
+    <div id="field-direccion" class="field" style="top: 200px; left: 200px;"></div>
+    <div id="field-ci_rif" class="field" style="top: 220px; left: 200px;"></div>
+    <div id="field-telefono" class="field" style="top: 240px; left: 200px;"></div>
+    <div id="field-vigencia_desde" class="field" style="top: 260px; left: 200px;"></div>
+    <div id="field-vigencia_hasta" class="field" style="top: 280px; left: 200px;"></div>
+    <div id="field-marca" class="field" style="top: 300px; left: 200px;"></div>
+    <div id="field-modelo" class="field" style="top: 320px; left: 200px;"></div>
+    <div id="field-numero_pasajeros" class="field" style="top: 340px; left: 200px;"></div>
+    <div id="field-version" class="field" style="top: 360px; left: 200px;"></div>
+    <div id="field-ano" class="field" style="top: 380px; left: 200px;"></div>
+    <div id="field-tipo_vehiculo" class="field" style="top: 400px; left: 200px;"></div>
+    <div id="field-placa" class="field" style="top: 420px; left: 200px;"></div>
+    <div id="field-serial_motor" class="field" style="top: 440px; left: 200px;"></div>
+    <div id="field-uso" class="field" style="top: 460px; left: 200px;"></div>
+    <div id="field-color" class="field" style="top: 480px; left: 200px;"></div>
+    <div id="field-serial_carroceria" class="field" style="top: 500px; left: 200px;"></div>
   </div>
 </div>
 
