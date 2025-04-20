@@ -41,6 +41,7 @@
       max-width: 100%;
       display: block;
       margin: 10px 0;
+      position: relative;
     }
   </style>
 </head>
@@ -111,7 +112,33 @@
       const img = document.createElement("img");
       img.src = e.target.result;
       img.setAttribute("contenteditable", "false");
-      editor.appendChild(img);
+      img.style.position = "relative"; // Establecer la posición relativa para control de apilamiento
+      img.style.zIndex = 0; // El valor inicial de zIndex
+      const container = document.createElement("div");
+      container.appendChild(img);
+
+      // Agregar botones para cambiar el apilamiento
+      const zButtons = document.createElement("div");
+      zButtons.style.display = "flex";
+      zButtons.style.gap = "5px";
+      
+      const toFrontButton = document.createElement("button");
+      toFrontButton.textContent = "Al Frente";
+      toFrontButton.onclick = () => img.style.zIndex = 1000; // Lleva la imagen al frente
+      zButtons.appendChild(toFrontButton);
+
+      const toBackButton = document.createElement("button");
+      toBackButton.textContent = "Al Fondo";
+      toBackButton.onclick = () => img.style.zIndex = -1000; // Envía la imagen al fondo
+      zButtons.appendChild(toBackButton);
+
+      const toMiddleButton = document.createElement("button");
+      toMiddleButton.textContent = "Al Medio";
+      toMiddleButton.onclick = () => img.style.zIndex = 0; // Restaura la imagen al medio
+      zButtons.appendChild(toMiddleButton);
+
+      container.appendChild(zButtons);
+      editor.appendChild(container);
     };
     reader.readAsDataURL(file);
   };
