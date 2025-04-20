@@ -37,6 +37,11 @@
       border: 1px solid #000;
       padding: 5px;
     }
+    img {
+      max-width: 100%;
+      display: block;
+      margin: 10px 0;
+    }
   </style>
 </head>
 <body>
@@ -45,6 +50,7 @@
   <button onclick="exec('bold')">Negrita</button>
   <button onclick="exec('italic')">Cursiva</button>
   <button onclick="exec('underline')">Subrayado</button>
+
   <select onchange="setFontSize(this.value)">
     <option value="">Tamaño</option>
     <option value="10px">10</option>
@@ -55,6 +61,12 @@
     <option value="24px">24</option>
     <option value="32px">32</option>
   </select>
+
+  <button onclick="exec('justifyLeft')">Izquierda</button>
+  <button onclick="exec('justifyCenter')">Centrado</button>
+  <button onclick="exec('justifyRight')">Derecha</button>
+  <button onclick="exec('justifyFull')">Justificado</button>
+
   <button onclick="insertImage()">Imagen</button>
   <button onclick="insertTable()">Tabla</button>
   <button onclick="undo()">Deshacer</button>
@@ -76,7 +88,7 @@
   }
 
   function setFontSize(size) {
-    document.execCommand("fontSize", false, "7"); // Usa el tamaño más grande disponible
+    document.execCommand("fontSize", false, "7");
     document.querySelectorAll("font[size='7']").forEach(font => {
       font.removeAttribute("size");
       font.style.fontSize = size;
@@ -98,8 +110,7 @@
     reader.onload = (e) => {
       const img = document.createElement("img");
       img.src = e.target.result;
-      img.style.maxWidth = "100%";
-      img.style.display = "block";
+      img.setAttribute("contenteditable", "false");
       editor.appendChild(img);
     };
     reader.readAsDataURL(file);
