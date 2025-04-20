@@ -1,89 +1,115 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Editor de Documentos Avanzado</title>
-  <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+  <meta charset="UTF-8">
+  <title>Mi Propio Editor de Texto</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background: #f2f2f2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
     }
 
-    .editor-container {
-      max-width: 850px;
-      margin-top: 20px;
-      background: white;
-      padding: 30px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 100%;
-    }
-
-    button.download-btn {
-      margin: 20px;
-      padding: 10px 20px;
-      background: #007bff;
+    .toolbar {
+      padding: 10px;
+      background: #333;
       color: white;
-      border: none;
-      border-radius: 5px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar button, .toolbar select, .toolbar input[type="color"] {
+      font-size: 14px;
+      padding: 5px;
       cursor: pointer;
     }
 
-    button.download-btn:hover {
-      background: #0056b3;
+    #editor {
+      width: 816px; /* Tamaño carta: 8.5 pulgadas * 96px */
+      height: 1056px; /* 11 pulgadas * 96px */
+      margin: 20px auto;
+      background: white;
+      padding: 2cm;
+      border: 1px solid #ccc;
+      overflow-y: auto;
+      outline: none;
     }
   </style>
 </head>
 <body>
-  <div class="editor-container">
-    <textarea id="editor">Escribe aquí tu documento...</textarea>
-  </div>
-  <button class="download-btn" onclick="downloadPDF()">Descargar como PDF</button>
 
-  <script>
-    tinymce.init({
-      selector: '#editor',
-      height: 1120, // Tamaño carta (aprox. 11 pulgadas x 96px)
-      menubar: true,
-      plugins: [
-        'advlist autolink lists link image charmap preview anchor',
-        'searchreplace visualblocks code fullscreen',
-        'insertdatetime media table code help wordcount'
-      ],
-      toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright alignjustify | outdent indent | link image table | forecolor backcolor | fontsizeselect | lineheight | code',
-      content_style: "@page { size: letter; margin: 2cm; } body { font-family:Arial,sans-serif; font-size:14px; line-height:1.5; padding:1cm; }",
-      setup: function (editor) {
-        editor.on('Change', () => {
-          localStorage.setItem('document', editor.getContent());
-        });
-        editor.on('init', () => {
-          const saved = localStorage.getItem('document');
-          if (saved) {
-            editor.setContent(saved);
-          }
-        });
-      }
-    });
+<div class="toolbar">
+  <button onclick="execCmd('bold')">Negrita</button>
+  <button onclick="execCmd('italic')">Cursiva</button>
+  <button onclick="execCmd('underline')">Subrayado</button>
+  <button onclick="execCmd('insertImage')">Imagen</button>
+  <button onclick="insertTable()">Tabla</button>
+  <select onchange="execCmd('fontSize', this.value)">
+    <option value="3">Tamaño</option>
+    <option value="1">Pequeño</option>
+    <option value="3" selected>Normal</option>
+    <option value="5">Grande</option>
+    <option value="7">Muy Grande</option>
+  </select>
+  <input type="color" onchange="execCmd('foreColor', this.value)" />
+  <button onclick="downloadPDF()">Descargar PDF</button>
+</div>
 
-    function downloadPDF() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ format: "letter", unit: "pt" });
-      const content = tinymce.get('editor').getContent();
-      doc.html(content, {
-        callback: function (doc) {
-          doc.save('documento.pdf');
-        },
-        x: 40,
-        y: 40
-      });
+<div id="editor" contenteditable="true"></div>
+
+<script>
+  const editor = document.getElementById('editor');
+
+  // Cargar del almacenamiento local
+  window.onload = () => {
+    const saved = localStorage.getItem('mi_documento');
+    if (saved) editor.innerHTML = saved;
+  }
+
+  // Guardado automático
+  editor.addEventListener('input', () => {
+    localStorage.setItem('mi_documento', editor.innerHTML);
+  });
+
+  function execCmd(command, value = null) {
+    if (command === 'insertImage') {
+      const url = prompt('URL de la imagen:');
+      if (url) document.execCommand('insertImage', false, url);
+    } else {
+      document.execCommand(command, false, value);
     }
-  </script>
+  }
 
-  <!-- Librería jsPDF para exportar como PDF -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  function insertTable() {
+    const rows = prompt('Filas:');
+    const cols = prompt('Columnas:');
+    if (!rows || !cols) return;
+
+    let html = '<table border="1" style="width:100%; border-collapse: collapse;">';
+    for (let i = 0; i < rows; i++) {
+      html += '<tr>';
+      for (let j = 0; j < cols; j++) {
+        html += '<td style="padding:5px;">Celda</td>';
+      }
+      html += '</tr>';
+    }
+    html += '</table>';
+    document.execCommand('insertHTML', false, html);
+  }
+
+  function downloadPDF() {
+    const content = editor.innerHTML;
+    const win = window.open('', '', 'height=800,width=800');
+    win.document.write('<html><head><title>Documento</title></head><body>');
+    win.document.write(content);
+    win.document.write('</body></html>');
+    win.document.close();
+    win.focus();
+    win.print();
+    win.close();
+  }
+</script>
+
 </body>
 </html>
