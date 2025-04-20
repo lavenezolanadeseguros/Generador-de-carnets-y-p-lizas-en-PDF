@@ -1,29 +1,98 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Generador de Pólizas</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>Póliza N° 181705 - MANUEL JESUS CARIPA LOPEZ</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    h1, h2, h3 { color: #2c3e50; }
+    .section { margin-bottom: 20px; }
+    .label { font-weight: bold; display: inline-block; width: 200px; vertical-align: top; }
+    .box { border: 1px solid #ccc; padding: 10px; margin-top: 5px; }
+    .info { margin-left: 210px; }
+    .title { font-size: 1.2em; margin-bottom: 10px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    .highlight { background-color: #f2f2f2; }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Generador de Pólizas</h1>
-    <form id="policy-form">
-      <label>Número de Póliza: <input type="text" id="numeroPoliza" required /></label>
-      <label>Nombre del Asegurado: <input type="text" id="nombre" required /></label>
-      <label>Cédula/RIF: <input type="text" id="cedula" required /></label>
-      <label>Marca del Vehículo: <input type="text" id="marca" required /></label>
-      <label>Modelo del Vehículo: <input type="text" id="modelo" required /></label>
-      <label>Placa: <input type="text" id="placa" required /></label>
-      <button type="submit">Generar PDF</button>
-    </form>
-    <div id="pdf-preview"></div>
+
+  <h1>La Venezolana de Seguros y Vida C.A.</h1>
+  <p>Teléfono: 0414-428-2115</p>
+  <p>Póliza N°: <strong>181705</strong></p>
+  <p>Certificado: <strong>V-20728968</strong></p>
+  <p>Fecha de Emisión: <strong>17-04-2025</strong></p>
+  <p>Vencimiento: <strong>17-04-2026</strong></p>
+
+  <div class="section">
+    <h2>Datos del Tomador y Asegurado</h2>
+    <p><span class="label">Nombre:</span> MANUEL JESUS CARIPA LOPEZ</p>
+    <p><span class="label">C.I. / RIF:</span> V-20728968</p>
+    <p><span class="label">Teléfono:</span> 414-0000-000</p>
+    <p><span class="label">Dirección:</span> Carabobo, SAN JOAQUIN</p>
   </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-  <script src="script.js"></script>
+
+  <div class="section">
+    <h2>Datos del Vehículo</h2>
+    <p><span class="label">Marca:</span> BERA</p>
+    <p><span class="label">Modelo:</span> BR200/22</p>
+    <p><span class="label">Año:</span> 2011</p>
+    <p><span class="label">Placa:</span> AD1B51D</p>
+    <p><span class="label">Color:</span> NEGRO</p>
+    <p><span class="label">Serial Motor:</span> BR163FMLAA007237</p>
+    <p><span class="label">Serial Carrocería:</span> 821MZ4C30BBD004924</p>
+    <p><span class="label">Uso:</span> Particular</p>
+    <p><span class="label">Tipo de Vehículo:</span> PASEO</p>
+    <p><span class="label">Número de Pasajeros:</span> 2</p>
+  </div>
+
+  <div class="section">
+    <h2>Datos de la Póliza</h2>
+    <p><span class="label">Tipo de Movimiento:</span> EMISIÓN / ALTA</p>
+    <p><span class="label">Inicio de Póliza:</span> 17-04-2025</p>
+    <p><span class="label">Vigencia:</span> Desde 17-04-2025 hasta 17-04-2026</p>
+    <p><span class="label">Canal de Venta:</span> SAFE GROUP</p>
+    <p><span class="label">Sucursal Oficina:</span> Carabobo</p>
+    <p><span class="label">Sucursal de Cobro:</span> Carabobo</p>
+    <p><span class="label">Código de los Intermediarios:</span> 001</p>
+    <p><span class="label">Frecuencia de Pago:</span> ANUAL</p>
+    <p><span class="label">Moneda:</span> DÓLARES</p>
+    <p><span class="label">Participación:</span> 100%</p>
+  </div>
+
+  <div class="section">
+    <h2>Coberturas</h2>
+    <table>
+      <tr class="highlight">
+        <th>Tipo</th>
+        <th>Monto</th>
+      </tr>
+      <tr>
+        <td>Daños a Personas</td>
+        <td>2,574.53</td>
+      </tr>
+      <tr>
+        <td>Daños a Cosas</td>
+        <td>2,055.51</td>
+      </tr>
+      <tr>
+        <td>Otros</td>
+        <td>0.00</td>
+      </tr>
+    </table>
+    <p><strong>Total a Cobrar: 25.00 USD</strong></p>
+  </div>
+
+  <div class="section">
+    <h2>Notas Legales</h2>
+    <p>El presente documento será entregado al Tomador junto con las Condiciones Generales, Condiciones Particulares, anexos y demás documentos que formen parte de la póliza.</p>
+    <p>Aprobado por la Superintendencia de la Actividad Aseguradora mediante PROVIDENCIA ADMINISTRATIVA N° SAA-01-0512-2024</p>
+    <p>Inscrita en el Registro Mercantil Segundo de la Circunscripción Judicial del Distrito Federal y Estado Miranda, en fecha 21/04/1955, bajo el número 70, Tomo 4</p>
+    <p>Miembro de la Cámara Aseguradora de Venezuela</p>
+    <p>Dirección: Av. Madrid, Reyes Torres, Av. Jalisco, Edif. La Venezolana de Seguros, Las Mercedes-Baruta, Caracas - Venezuela</p>
+    <p>Teléfono: (0212) 9094850</p>
+  </div>
+
 </body>
 </html>
